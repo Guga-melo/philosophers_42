@@ -2,7 +2,8 @@ NAME = philo
 
 CFLAGS	= -pthread -Wall -Wextra -Werror
 RM		= rm -f
-SRCS	= philo.c   \
+SRCS	= main.c    \
+		  philo.c   \
 		  init.c    \
 		  check.c   \
 		  ft_atoi.c \

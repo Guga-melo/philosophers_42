@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 08:38:07 by gussoare          #+#    #+#             */
-/*   Updated: 2022/11/09 09:54:31 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/11/23 11:11:30 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ void	ft_init_philo(t_data *data)
 void	ft_init_mutex(t_data *data)
 {
 	int i;
+
 	i = data->n_philo;
 	while (--i >= 0)
 		pthread_mutex_init(&(data->fork[i]), NULL);
+	pthread_mutex_init(&(data->meal), NULL);
+	pthread_mutex_init(&(data->log), NULL);
 }
 
 void	ft_init_data(t_data *data, char **argv)
@@ -49,6 +52,8 @@ void	ft_init_data(t_data *data, char **argv)
 			data->n_meals = ft_atoi(argv[5]);
 		else
 			data->n_meals = -1;
+		data->died = 0;
+		data->total_ate = 0;
 		data->fork = malloc(data->n_philo * sizeof(pthread_mutex_t));
 		data->philo = malloc(data->n_philo * sizeof(t_philo));
 		ft_init_mutex(data);

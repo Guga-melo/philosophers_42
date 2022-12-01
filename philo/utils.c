@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 10:19:27 by gussoare          #+#    #+#             */
-/*   Updated: 2022/11/23 13:51:33 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:28:50 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	destroy_mutex(t_philo *philo)
 void print_message(t_data *data, int id, unsigned long time, char *action)
 {
 	pthread_mutex_lock(&(data->log));
-	printf("%lums  %d %s\n", time, id + 1, action);
+	if (!data->died)
+		printf("%lums  %d %s\n", time, id + 1, action);
 	pthread_mutex_unlock(&(data->log));
 }
 

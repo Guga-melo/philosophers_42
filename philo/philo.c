@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:09:30 by gussoare          #+#    #+#             */
-/*   Updated: 2022/11/23 13:54:06 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:24:43 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ void *pthread(void *p)
 	data = philo->data;
 
 	if (philo->id % 2)
-		usleep(5);
-	philo->last_meal = timestamp();
+		usleep(10000);
 	while (!(data->died))
 	{
 		if (data->total_ate == data->n_philo)
@@ -66,7 +65,7 @@ void check_welfare(t_philo *p, t_data *data)
 		if (timestamp() - p[i].last_meal > (unsigned long)data->ttd)
 		{
 			data->died = 1;
-			print_message(data, p->id, time_spent(data), "died");
+			printf("%lums %d died\n", time_spent(data), p[i].id + 1);
 			break ;
 		}
 		i = (i + 1) % data->n_philo;
@@ -89,11 +88,14 @@ void philo(t_data *data)
 		printf("number of meals to eat--> %d\n", data->n_meals);
 	data->start_time = timestamp();
 	while (++i < data->n_philo)
+	{
 		pthread_create(&(p[i].thread_id), NULL, pthread, &p[i]);
+		p[i].last_meal = timestamp();
+	}
+	check_welfare(p, data);
 	i = -1;
 	while (++i < data->n_philo)
 		pthread_join(p[i].thread_id, NULL);
-	check_welfare(p, data);
 	destroy_mutex(p);
 	free_all(p, p->data->fork);
 }

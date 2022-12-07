@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 10:19:27 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/07 12:23:06 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:05:07 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,11 @@ void	time_spent(t_data *data, int action)
 	unsigned long	time;
 
 	time = timestamp();
-	while (timestamp() - time < (unsigned long)action)
+	while (!data->died)
 	{
-
-		pthread_mutex_lock(&(data->meal));
-		pthread_mutex_lock(&(data->log));
-		if (data->died == 1 || data->total_ate == data->n_philo)
-		{
-			pthread_mutex_unlock(&(data->meal));
-			pthread_mutex_unlock(&(data->log));
+		if (timestamp() - time >= (unsigned long)action)
 			break ;
-		}
-		pthread_mutex_unlock(&(data->meal));
-		pthread_mutex_unlock(&(data->log));
-		usleep(100);
+		usleep(50);
 	}
 }
 
@@ -62,6 +53,7 @@ void	print_message(t_data *data, int id, char *action)
 	if (!data->died)
 		printf("%lums  %d %s\n", time, id + 1, action);
 	pthread_mutex_unlock(&(data->log));
+	usleep(50);
 }
 
 unsigned long	timestamp(void)

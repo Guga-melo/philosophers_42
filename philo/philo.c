@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:09:30 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/07 12:21:16 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:11:35 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,17 @@ void	eating(t_philo *p)
 	pthread_mutex_lock(&(data->meal));
 	print_message(data, p->id, "is eating");
 	p->last_meal = timestamp();
+	pthread_mutex_unlock(&(data->meal));
 	time_spent(data, data->tte);
 	p->meals_had++;
 	if (p->meals_had == data->n_meals)
 		data->total_ate++;
-	pthread_mutex_unlock(&(data->meal));
 	pthread_mutex_unlock(&(data->fork[p->l_fork]));
 	pthread_mutex_unlock(&(data->fork[p->r_fork]));
 	print_message(data, p->id, "is sleeping");
+	pthread_mutex_lock(&(data->meal));
 	time_spent(data, data->tts);
+	pthread_mutex_unlock(&(data->meal));
 	print_message(data, p->id, "is thinking");
 }
 
@@ -77,10 +79,10 @@ void	check_welfare(t_philo *p, t_data *data)
 		}
 		if (timestamp() - p[i].last_meal >= (unsigned long)data->ttd)
 		{
-
 			pthread_mutex_lock(&(data->log));
 			data->died = 1;
-			printf("%lums %d died\n", timestamp() - data->start_time, p[i].id + 1);
+			printf("%lums %d died\n", timestamp() - data->start_time, \
+				   	p[i].id + 1);
 			pthread_mutex_unlock(&(data->meal));
 			pthread_mutex_unlock(&(data->log));
 			break ;

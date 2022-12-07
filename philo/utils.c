@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 10:19:27 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/06 08:09:28 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:23:06 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,28 @@ void	free_all(t_philo *p, pthread_mutex_t *f)
 		free(f);
 }
 
+void	time_spent(t_data *data, int action)
+{
+	unsigned long	time;
+
+	time = timestamp();
+	while (timestamp() - time < (unsigned long)action)
+	{
+
+		pthread_mutex_lock(&(data->meal));
+		pthread_mutex_lock(&(data->log));
+		if (data->died == 1 || data->total_ate == data->n_philo)
+		{
+			pthread_mutex_unlock(&(data->meal));
+			pthread_mutex_unlock(&(data->log));
+			break ;
+		}
+		pthread_mutex_unlock(&(data->meal));
+		pthread_mutex_unlock(&(data->log));
+		usleep(100);
+	}
+}
+
 void	destroy_mutex(t_philo *philo)
 {
 	int	i;
@@ -31,9 +53,12 @@ void	destroy_mutex(t_philo *philo)
 	pthread_mutex_destroy(&(philo->data->log));
 }
 
-void	print_message(t_data *data, int id, unsigned long time, char *action)
+void	print_message(t_data *data, int id, char *action)
 {
+	unsigned long	time;
+
 	pthread_mutex_lock(&(data->log));
+	time = timestamp() - data->start_time;
 	if (!data->died)
 		printf("%lums  %d %s\n", time, id + 1, action);
 	pthread_mutex_unlock(&(data->log));
@@ -51,9 +76,4 @@ unsigned long	timestamp(void)
 	u = tv.tv_usec / 1000;
 	t = s + u;
 	return (t);
-}
-
-unsigned long	time_spent(t_data *data)
-{
-	return (timestamp() - data->start_time);
 }

@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:15:37 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/06 08:07:55 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:13:38 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ int				ft_atoi(const char *str);
 void			philo(t_data *data);
 void			destroy_mutex(t_philo *philo);
 unsigned long	timestamp(void);
-unsigned long	time_spent(t_data *data);
+void			time_spent(t_data *data, int action);
 void			eating(t_philo *philo);
-void			print_message(t_data *data, int id, \
-					unsigned long time, char *action);
+void			print_message(t_data *data, int id, char *action);
 void			check_welfare(t_philo *p, t_data *data);
 void			free_all(t_philo *p, pthread_mutex_t *f);
 

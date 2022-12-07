@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 10:19:27 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/01 13:28:50 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/06 08:09:28 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_all(t_philo *p, pthread_mutex_t *f)
 
 void	destroy_mutex(t_philo *philo)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < philo->data->n_philo)
@@ -31,7 +31,7 @@ void	destroy_mutex(t_philo *philo)
 	pthread_mutex_destroy(&(philo->data->log));
 }
 
-void print_message(t_data *data, int id, unsigned long time, char *action)
+void	print_message(t_data *data, int id, unsigned long time, char *action)
 {
 	pthread_mutex_lock(&(data->log));
 	if (!data->died)
@@ -39,12 +39,13 @@ void print_message(t_data *data, int id, unsigned long time, char *action)
 	pthread_mutex_unlock(&(data->log));
 }
 
-unsigned long timestamp(void)
+unsigned long	timestamp(void)
 {
-	struct timeval tv;
-	unsigned long s;
-	unsigned long u;
-	unsigned long t;
+	struct timeval	tv;
+	unsigned long	s;
+	unsigned long	u;
+	unsigned long	t;
+
 	gettimeofday(&tv, NULL);
 	s = tv.tv_sec * 1000;
 	u = tv.tv_usec / 1000;
@@ -52,7 +53,7 @@ unsigned long timestamp(void)
 	return (t);
 }
 
-unsigned long time_spent(t_data *data)
+unsigned long	time_spent(t_data *data)
 {
 	return (timestamp() - data->start_time);
 }

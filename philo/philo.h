@@ -6,18 +6,18 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:15:37 by gussoare          #+#    #+#             */
-/*   Updated: 2022/11/23 13:51:04 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/06 08:07:55 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <sys/time.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <sys/time.h>
 
 typedef struct s_philo
 {
@@ -38,10 +38,10 @@ typedef struct s_data
 	int					tts;
 	int					n_meals;
 	int					total_ate;
-	int 				died;
+	int					died;
 	unsigned long		start_time;
-	pthread_mutex_t 	meal;
-	pthread_mutex_t 	log;
+	pthread_mutex_t		meal;
+	pthread_mutex_t		log;
 	pthread_mutex_t		*fork;
 	t_philo				*philo;
 }						t_data;
@@ -56,7 +56,8 @@ void			destroy_mutex(t_philo *philo);
 unsigned long	timestamp(void);
 unsigned long	time_spent(t_data *data);
 void			eating(t_philo *philo);
-void			print_message(t_data *data, int id, unsigned long time, char *action);
+void			print_message(t_data *data, int id, \
+					unsigned long time, char *action);
 void			check_welfare(t_philo *p, t_data *data);
 void			free_all(t_philo *p, pthread_mutex_t *f);
 

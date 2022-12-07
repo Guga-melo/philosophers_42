@@ -6,27 +6,29 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:09:30 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/01 13:24:43 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/07 08:10:13 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void eating(t_philo *p)
+void	eating(t_philo *p)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = p->data;
-	pthread_mutex_lock(&(data->fork[p->l_fork]));	
+	pthread_mutex_lock(&(data->fork[p->l_fork]));
 	print_message(data, p->id, time_spent(data), "has taken a fork");
 	pthread_mutex_lock(&(data->fork[p->r_fork]));
 	print_message(data, p->id, time_spent(data), "has taken a fork");
+	pthread_mutex_lock(&(data->meal));
 	print_message(data, p->id, time_spent(data), "is eating");
-	usleep(data->tte * 1000);
 	p->last_meal = timestamp();
+	usleep(data->tte * 1000);
 	p->meals_had++;
 	if (p->meals_had == data->n_meals)
 		data->total_ate++;
+	pthread_mutex_unlock(&(data->meal));
 	pthread_mutex_unlock(&(data->fork[p->l_fork]));
 	pthread_mutex_unlock(&(data->fork[p->r_fork]));
 	print_message(data, p->id, time_spent(data), "is sleeping");
@@ -34,14 +36,13 @@ void eating(t_philo *p)
 	print_message(data, p->id, time_spent(data), "is thinking");
 }
 
-void *pthread(void *p)
+void	*pthread(void *p)
 {
-	t_philo *philo;
+	t_philo	*philo;
 	t_data	*data;
 
 	philo = (t_philo *)p;
 	data = philo->data;
-
 	if (philo->id % 2)
 		usleep(10000);
 	while (!(data->died))
@@ -53,13 +54,14 @@ void *pthread(void *p)
 	return (NULL);
 }
 
-void check_welfare(t_philo *p, t_data *data)
+void	check_welfare(t_philo *p, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (42)
 	{
+		pthread_mutex_lock(&(data->meal));
 		if (data->total_ate == data->n_philo)
 			break ;
 		if (timestamp() - p[i].last_meal > (unsigned long)data->ttd)
@@ -68,15 +70,16 @@ void check_welfare(t_philo *p, t_data *data)
 			printf("%lums %d died\n", time_spent(data), p[i].id + 1);
 			break ;
 		}
+		pthread_mutex_unlock(&(data->meal));
 		i = (i + 1) % data->n_philo;
 		usleep(500);
 	}
 }
 
-void philo(t_data *data)
+void	philo(t_data *data)
 {
-	t_philo *p;
-	int i;
+	t_philo	*p;
+	int		i;
 
 	i = -1;
 	p = data->philo;

@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:06:54 by gussoare          #+#    #+#             */
-/*   Updated: 2022/11/01 11:11:53 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/06 07:58:08 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_check_argv(char **str)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 1;
 	while (str[i])

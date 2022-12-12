@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 08:38:07 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/07 14:00:57 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/12 08:22:27 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,21 @@ void	ft_init_data(t_data *data, char **argv)
 	data->total_ate = 0;
 	data->fork = malloc(data->n_philo * sizeof(pthread_mutex_t));
 	data->philo = malloc(data->n_philo * sizeof(t_philo));
+	data->fork_id = malloc(data->n_philo * sizeof(int));
+	int i = 0;
+	while (i != data->n_philo)
+	{
+		data->fork_id[i] = 1;
+		i++;
+	}
+	i = 0;
+	/*
+	while (i != data->n_philo)
+	{
+		printf("fork_id --> %d\n", data->fork_id[i]);
+		i++;
+	}
+	*/
 	ft_init_mutex(data);
 	ft_init_philo(data);
 }

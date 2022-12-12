@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:09:30 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/07 14:11:35 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/12 08:54:45 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,35 @@ void	eating(t_philo *p)
 	t_data	*data;
 
 	data = p->data;
+	while (1)
+	{
+		if (data->fork_id[p->l_fork] == 1 && data->fork_id[p->r_fork] == 1) 
+		{
+			data->fork_id[p->l_fork] = 0;
+			data->fork_id[p->r_fork] = 0;
+			break ;
+		}
+	}
 	pthread_mutex_lock(&(data->fork[p->l_fork]));
 	print_message(data, p->id, "has taken a fork");
 	pthread_mutex_lock(&(data->fork[p->r_fork]));
 	print_message(data, p->id, "has taken a fork");
-	pthread_mutex_lock(&(data->meal));
+	//pthread_mutex_lock(&(data->meal));
 	print_message(data, p->id, "is eating");
 	p->last_meal = timestamp();
-	pthread_mutex_unlock(&(data->meal));
+	//pthread_mutex_unlock(&(data->meal));
 	time_spent(data, data->tte);
 	p->meals_had++;
 	if (p->meals_had == data->n_meals)
 		data->total_ate++;
 	pthread_mutex_unlock(&(data->fork[p->l_fork]));
 	pthread_mutex_unlock(&(data->fork[p->r_fork]));
+	data->fork_id[p->l_fork] = 1;
+	data->fork_id[p->r_fork] = 1;
 	print_message(data, p->id, "is sleeping");
-	pthread_mutex_lock(&(data->meal));
+	//pthread_mutex_lock(&(data->meal));
 	time_spent(data, data->tts);
-	pthread_mutex_unlock(&(data->meal));
+	//pthread_mutex_unlock(&(data->meal));
 	print_message(data, p->id, "is thinking");
 }
 
@@ -46,7 +57,7 @@ void	*pthread(void *p)
 	philo = (t_philo *)p;
 	data = philo->data;
 	if (philo->id % 2)
-		usleep(10000);
+		usleep(15000);
 	while (42)
 	{
 		pthread_mutex_lock(&(data->meal));

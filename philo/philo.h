@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:15:37 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/12 08:08:33 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/12 09:24:31 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct s_data
 	int					total_ate;
 	int					died;
 	unsigned long		start_time;
-	int					*fork_id;
 	pthread_mutex_t		meal;
 	pthread_mutex_t		log;
 	pthread_mutex_t		*fork;

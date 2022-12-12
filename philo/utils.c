@@ -6,7 +6,7 @@
 /*   By: gussoare <gussoare@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 10:19:27 by gussoare          #+#    #+#             */
-/*   Updated: 2022/12/12 08:34:07 by gussoare         ###   ########.fr       */
+/*   Updated: 2022/12/12 09:10:50 by gussoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void	print_message(t_data *data, int id, char *action)
 {
 	unsigned long	time;
 
-	//pthread_mutex_lock(&(data->log));
+	pthread_mutex_lock(&(data->log));
 	time = timestamp() - data->start_time;
 	if (!data->died)
 		printf("%lums  %d %s\n", time, id + 1, action);
-	//pthread_mutex_unlock(&(data->log));
+	pthread_mutex_unlock(&(data->log));
 }
 
 unsigned long	timestamp(void)
